@@ -13,8 +13,7 @@
 #
 ---
 include:
-  - board: planck_rev6
   - board: corneish_zen_v2_left
   - board: corneish_zen_v2_right
-  - board: glove80_lh
-  - board: glove80_rh
+  - board: cradio_left
+  - board: cradio_right
