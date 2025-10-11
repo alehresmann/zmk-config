@@ -164,7 +164,7 @@ SIMPLE_MORPH(lpar_lt, SFT, &kp LPAR, &kp LT)
 SIMPLE_MORPH(rpar_gt, SFT, &kp RPAR, &kp GT)
 
 // Tap: Alt + tap: grave `
-SIMPLE_MORPH(sqt_morph, ALT, &kp SQT, &kp GRAVE)
+//SIMPLE_MORPH(sqt_morph, ALT, &kp SQT, &kp GRAVE)
 
 // Tap: space | Shift + tap: dot -> space -> sticky shift | Hold: nav layer.
 ZMK_HOLD_TAP(lt_spc, bindings = <&mo>, <&spc_morph>; flavor = "balanced";
