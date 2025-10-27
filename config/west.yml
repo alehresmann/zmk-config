@@ -1,5 +1,3 @@
-# use this if you want your left hand to be the master
-
 # This file specifies the build dependencies for Github Action workflows and
 # for local build environments. The workspace has four toplevel directories
 # containing the user config, modules, zephy and ZMK.
@@ -22,17 +20,22 @@ manifest:
   defaults:
     remote: urob
     revision: v0.3 # Pin everything to v0.3
-
   remotes:
     - name: urob
       url-base: https://github.com/urob
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-
+    # dongle
+    - name: rschenk
+      url-base: https://github.com/rschenk
   projects:
     - name: zmk
       remote: zmkfirmware
       import: app/west.yml
+    # dongle
+    - name: zmk-component-raytac-dongle
+      remote: rschenk
+      revision: main
 
     # ZMK modules
     - name: zmk-adaptive-key
@@ -47,6 +50,7 @@ manifest:
       path: modules/zmk/tri-state
     - name: zmk-unicode
       path: modules/zmk/unicode
+
 
     # Only source necessary Zephyr modules. Remove this entire section to restore
     # the default (needed for less common hardware).

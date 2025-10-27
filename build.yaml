@@ -1,5 +1,5 @@
-# board: [ "nice_nano_v2" ]
-# shield: [ "cradio_left", "cradio_right" ]
+board: [ "raytac_mdbt50q_rx", "nice_nano_v2" ]
+shield: [ "cradio_left", "cradio_right" ]
 
 #  # Config settings for the dongle
 #  - board: raytac_mdbt50q_rx
@@ -7,8 +7,3 @@
 #    
 #  - board: raytac_mdbt50q_rx
 #    shield: settings_reset
-#
-board: nice_nano_v2
-shield:
-  - cradio_left
-  - cradio_right
