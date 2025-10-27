@@ -1,7 +1,6 @@
 # board: [ "nice_nano_v2" ]
 # shield: [ "cradio_left", "cradio_right" ]
 
-include:
 #  # Config settings for the dongle
 #  - board: raytac_mdbt50q_rx
 #    shield: my_keyboard_dongle
@@ -12,4 +11,6 @@ include:
 - board: nice_nano_v2
   shield:
     - cradio_left
+- board: nice_nano_v2
+  shield:
     - cradio_right
