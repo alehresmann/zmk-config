@@ -6,3 +6,5 @@ include:
   shield: cradio_right
 - board: nice_nano_v2
   shield: settings_reset
+- board: raytac_mdbt50q_rx
+  shield: cradio_dongle
