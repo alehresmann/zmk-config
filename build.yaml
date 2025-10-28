@@ -9,7 +9,7 @@ include:
 # - board: raytac_mdbt50q_rx
 #   shield: cradio_dongle
 
-- board: nice_nano_v2
+- board: raytac_mdbt50q_rx
   shield: cradio_dongle
   snippet: studio-rpc-usb-uart
   cmake-args: -DCONFIG_ZMK_STUDIO=y
