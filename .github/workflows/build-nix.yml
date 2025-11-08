@@ -12,6 +12,23 @@ jobs:
   build:
     uses: urob/zmk-actions/.github/workflows/build-user-config.yml@main
     with:
-      # Set to 'gnuarmemb' 'zephyr' or 'zephyr-full' (from fastest to
-      # most compatible). ZMK Studio requires 'zephyr-full'.
       toolchain: zephyr
+      cmake-args: "-DCONVERT_TO_HEX=y"
+    
+    # dfu
+    post-build-steps:
+      - name: Install adafruit-nrfutil
+        run: python3 -m pip install adafruit-nrfutil
+
+      - name: Build DFU package
+        run: |
+          adafruit-nrfutil dfu genpkg \
+            --dev-type 0x0052 \
+            --application "${{ env.build_dir }}/zephyr/zmk.hex" \
+            "${{ env.build_dir }}/zephyr/${{ env.artifact_name }}.zip"
+
+      - name: Upload DFU artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: "${{ env.artifact_name }}-dfu"
+          path: "${{ env.build_dir }}/zephyr/${{ env.artifact_name }}.zip"
