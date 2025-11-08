@@ -6,3 +6,7 @@ firmware
 zephyr
 zmk
 draw/base.yaml
+dfu-work/
+test.sh
+uf2conv.py
+uf2families.json
