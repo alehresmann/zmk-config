@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install DFU tools
-        run: python3 -m pip install --break-system-packages pip adafruit-nrfutil
+        run: python3 -m pip install --break-system-packages adafruit-nrfutil
       - name: Build DFU package
         run: |
           python3 -m adafruit_nrfutil dfu genpkg \
