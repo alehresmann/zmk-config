@@ -13,34 +13,38 @@ jobs:
     uses: urob/zmk-actions/.github/workflows/build-user-config.yml@main
     with:
       toolchain: zephyr
-      cmake-args: "-DCONVERT_TO_HEX=y"
 
   dfu:
     needs: build
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-dev-arm:3.5-branch
+    env:
+      artifact_name: "default"
+      build_dir: "build"
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Install adafruit-nrfutil
-        run: python3 -m pip install adafruit-nrfutil
-
-      - name: Copy firmware from build
+      - name: Install tools
         run: |
-          mkdir -p build/zephyr
-          cp path/to/build-user-config-output/zmk.hex build/zephyr/
+          python3 -m pip install adafruit-nrfutil
+          pip install uf2conv
+
+      - name: Convert UF2 to HEX
+        run: |
+          mkdir -p "${{ env.build_dir }}/zephyr"
+          uf2conv.py -o "${{ env.build_dir }}/zephyr/zmk.hex" "path/to/build/zmk.uf2"
 
       - name: Build DFU package
         run: |
           adafruit-nrfutil dfu genpkg \
             --dev-type 0x0052 \
-            --application "build/zephyr/zmk.hex" \
-            "build/zephyr/${{ env.artifact_name }}.zip"
+            --application "${{ env.build_dir }}/zephyr/zmk.hex" \
+            "${{ env.build_dir }}/zephyr/${{ env.artifact_name }}.zip"
 
       - name: Upload DFU artifact
         uses: actions/upload-artifact@v3
         with:
           name: "${{ env.artifact_name }}-dfu"
-          path: "build/zephyr/${{ env.artifact_name }}.zip"
-          
+          path: "${{ env.build_dir }}/zephyr/${{ env.artifact_name }}.zip"
