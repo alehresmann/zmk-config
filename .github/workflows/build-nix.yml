@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - boards/**
+      - zephyr/**
       - config/**
       - build.yaml
 
