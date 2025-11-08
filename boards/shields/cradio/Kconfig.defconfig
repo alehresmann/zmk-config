@@ -2,12 +2,15 @@ if SHIELD_CRADIO_DONGLE
 
 # Max 16 characters in keyboard name
 config ZMK_KEYBOARD_NAME
-    default "Cradio"
+    default "Cradio_Dongle"
 
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
 config ZMK_SPLIT
+    default y
+
+config ZMK_BLE
     default y
 
 # Set this to the number of peripherals your dongle will have.
