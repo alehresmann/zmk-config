@@ -31,10 +31,8 @@ jobs:
       - name: Build DFU package
         run: |
           sudo apt update
-          sudo apt install -y python3-venv
-          python3 -m venv venv
-          ./venv/bin/pip install --upgrade pip adafruit-nrfutil
-          ./venv/bin/python -m adafruit_nrfutil dfu genpkg \
+          sudo apt install -y pipx
+          pipx run adafruit-nrfutil dfu genpkg \
             --dev-type 0x0052 \
             --application "${{ github.workspace }}/artifacts/${{ env.artifact_name }}.uf2" \
             "${{ github.workspace }}/artifacts/${{ env.artifact_name }}.zip"
