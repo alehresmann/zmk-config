@@ -27,20 +27,14 @@ jobs:
         uses: actions/checkout@v3
       - name: Install DFU tools
         run: python3 -m pip install --break-system-packages pip adafruit-nrfutil
-      - name: Download uf2conv.py
-        run: curl -L -o uf2conv.py https://raw.githubusercontent.com/microsoft/uf2/master/utils/uf2conv.py
-      - name: Convert UF2 to HEX
-        run: python3 uf2conv.py -o "${{ env.build_dir }}/zephyr/zmk.hex" \
-            "${{ env.build_dir }}/zephyr/zmk.uf2"
       - name: Build DFU package
         run: |
-          adafruit-nrfutil dfu genpkg \
+          python3 -m adafruit_nrfutil dfu genpkg \
             --dev-type 0x0052 \
-            --application "${{ env.build_dir }}/zephyr/zmk.hex" \
-            "${{ env.build_dir }}/zephyr/${{ env.artifact_name }}.zip"
-
+            --application "${{ env.build_dir }}/artifacts/${{ env.artifact_name }}.uf2" \
+            "${{ env.build_dir }}/artifacts/${{ env.artifact_name }}.zip"
       - name: Upload DFU artifact
         uses: actions/upload-artifact@v4
         with:
           name: "${{ env.artifact_name }}-dfu"
-          path: "${{ env.build_dir }}/zephyr/${{ env.artifact_name }}.zip"
+          path: "${{ env.build_dir }}/artifacts/${{ env.artifact_name }}.zip"
