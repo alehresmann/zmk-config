@@ -26,16 +26,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install DFU tools
-        run: python3 -m pip install --break-system-packages --upgrade pip adafruit-nrfutil uf2conv
+        run: python3 -m pip install --break-system-packages --upgrade pip adafruit-nrfutil
       - name: Convert UF2 to HEX
         run: |
-          source venv/bin/activate
-          mkdir -p "${{ env.build_dir }}/zephyr"
-          uf2conv.py -o "${{ env.build_dir }}/zephyr/zmk.hex" "path/to/build/zmk.uf2"
-
+          python3 zmk/tools/uf2conv.py -o "${{ env.build_dir }}/zephyr/zmk.hex" \
+            "${{ env.build_dir }}/zephyr/zmk.uf2"
       - name: Build DFU package
         run: |
-          source venv/bin/activate
           adafruit-nrfutil dfu genpkg \
             --dev-type 0x0052 \
             --application "${{ env.build_dir }}/zephyr/zmk.hex" \
