@@ -14,7 +14,16 @@ jobs:
     uses: urob/zmk-actions/.github/workflows/build-user-config.yml@main
     with:
       toolchain: zephyr
-
+  merge:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Merge Artifacts
+        uses: actions/upload-artifact/merge@v5
+        with:
+          name: ${{ github.event.inputs.archive_name }}
+          pattern: artifact-*
+          delete-merged: true
   build-dfu:
     runs-on: ubuntu-latest
     needs: merge
