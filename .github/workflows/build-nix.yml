@@ -24,20 +24,24 @@ jobs:
       build_dir: "build"
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Install tools
+      - name: Set up Python virtual environment
         run: |
-          python3 -m pip install adafruit-nrfutil
-          pip install uf2conv
+          python3 -m venv venv
+          source venv/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install adafruit-nrfutil uf2conv
 
       - name: Convert UF2 to HEX
         run: |
+          source venv/bin/activate
           mkdir -p "${{ env.build_dir }}/zephyr"
           uf2conv.py -o "${{ env.build_dir }}/zephyr/zmk.hex" "path/to/build/zmk.uf2"
 
       - name: Build DFU package
         run: |
+          source venv/bin/activate
           adafruit-nrfutil dfu genpkg \
             --dev-type 0x0052 \
             --application "${{ env.build_dir }}/zephyr/zmk.hex" \
