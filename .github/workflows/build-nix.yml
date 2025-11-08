@@ -21,7 +21,7 @@ jobs:
       - name: Merge Artifacts
         uses: actions/upload-artifact/merge@v5
         with:
-          name: ${{ github.event.inputs.archive_name || 'merged-artifacts' }}
+          name: ${{ github.event.inputs.archive_name || 'artifacts-merged' }}
           pattern: artifact-*
           delete-merged: true
 
