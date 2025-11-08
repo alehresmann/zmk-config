@@ -27,7 +27,7 @@ jobs:
       - name: Download firmware artifact
         uses: actions/download-artifact@v5
         with:
-          name: artifact-firmware   # must match the name uploaded by the build job
+          name: artifact-${{ needs.build.outputs.artifact_name }}
           path: ${{ github.workspace }}/artifacts
 
       - name: Build DFU package
