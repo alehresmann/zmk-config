@@ -23,12 +23,11 @@ jobs:
       artifact_name: ${{ needs.build.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@v3
-
       - name: Download firmware artifact
         uses: actions/download-artifact@v4
         with:
-          name: "${{ env.artifact_name }}"
-          path: "${{ env.build_dir }}/artifacts"
+          name: firmware
+          path: ${{ github.workspace }}/artifacts
 
       - name: Set up Python venv
         run: |
@@ -43,9 +42,8 @@ jobs:
           source venv/bin/activate
           python3 -m adafruit_nrfutil dfu genpkg \
             --dev-type 0x0052 \
-            --application "${{ env.build_dir }}/artifacts/${{ env.artifact_name }}.uf2" \
-            "${{ env.build_dir }}/artifacts/${{ env.artifact_name }}.zip"
-
+            --application "${{ github.workspace }}/artifacts/${{ env.artifact_name }}.uf2" \
+            "${{ github.workspace }}/artifacts/${{ env.artifact_name }}.zip"
       - name: Upload DFU artifact
         uses: actions/upload-artifact@v4
         with:
