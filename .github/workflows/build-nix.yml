@@ -14,21 +14,33 @@ jobs:
     with:
       toolchain: zephyr
       cmake-args: "-DCONVERT_TO_HEX=y"
-    
-    # dfu
-    post-build-steps:
+
+  dfu:
+    needs: build
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-dev-arm:3.5-branch
+    steps:
+      - uses: actions/checkout@v3
+
       - name: Install adafruit-nrfutil
         run: python3 -m pip install adafruit-nrfutil
+
+      - name: Copy firmware from build
+        run: |
+          mkdir -p build/zephyr
+          cp path/to/build-user-config-output/zmk.hex build/zephyr/
 
       - name: Build DFU package
         run: |
           adafruit-nrfutil dfu genpkg \
             --dev-type 0x0052 \
-            --application "${{ env.build_dir }}/zephyr/zmk.hex" \
-            "${{ env.build_dir }}/zephyr/${{ env.artifact_name }}.zip"
+            --application "build/zephyr/zmk.hex" \
+            "build/zephyr/${{ env.artifact_name }}.zip"
 
       - name: Upload DFU artifact
         uses: actions/upload-artifact@v3
         with:
           name: "${{ env.artifact_name }}-dfu"
-          path: "${{ env.build_dir }}/zephyr/${{ env.artifact_name }}.zip"
+          path: "build/zephyr/${{ env.artifact_name }}.zip"
+          
