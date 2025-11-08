@@ -36,7 +36,7 @@ jobs:
           python3 -m venv venv
           source venv/bin/activate
           pip install --upgrade pip adafruit-nrfutil
-          python3 -m adafruit_nrfutil dfu genpkg \
+          python -m adafruit_nrfutil dfu genpkg \
             --dev-type 0x0052 \
             --application "${{ github.workspace }}/artifacts/${{ env.artifact_name }}.uf2" \
             "${{ github.workspace }}/artifacts/${{ env.artifact_name }}.zip"
